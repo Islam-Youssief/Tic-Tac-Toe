@@ -255,6 +255,148 @@ public class ClientSession {
             sendRequest(request);
         }
     }
+    public void requestGame(String secondPlayerName){
+        //**ALERT** waiting for other player response with cancel button
+        Handler request=new Handler(Handler.HandType.GAME_REQUEST,"destination",secondPlayerName);
+        sendRequest(request);
+    }
+    public void respondToRequest(Handler incoming){
+        //**Alert** with the request from **playerRequestingGame** returns boolean **accept**
+        player1=incoming.getData("source");
+        Platform.runLater(() -> {
+            ClientApp.homeController.showAlert(player1);
+        });
+    }
+    public void sendResponse(boolean response){
+        IAmX=false;
+        Handler outgoing=new Handler(Handler.HandType.GAME_RESPONSE,"destination",player1);
+        outgoing.setData("response",response?"accept":"deny");
+        sendRequest(outgoing);
+    }
+    public void handleResponse(Handler incoming){
+        if(incoming.getData("response").equals("accept")){
+            IAmX = true;
+            myTurn = true;
+            player2 = incoming.getData("source");
+            Platform.runLater(() -> {
+                ClientApp.primaryStage.setScene(main.ClientApp.game);
+                ClientApp.gameController.resetScene();
+                ClientApp.gameController.img = new Image(ClientSession.this.getClass().getResourceAsStream("/resources/images/x.png"));
+            });
+        }else{
+            //other player rejected request
+        }
+    }
+    public void playWithAI(){
+        ClientApp.gameController.resetScene();
+        sendRequest(new Handler(Handler.HandType.AIGAME_REQUEST));
+        player1 = player.getLoginName();
+        player2 = "computer";
+        IAmX = true;
+        myTurn = true;
+        ClientApp.gameController.img = new Image(getClass().getResourceAsStream("/resources/images/x.png"));
+    }
+    public void makeAMove(String x,String y) {
+        myTurn = false;
+        Handler request=new Handler(Handler.HandType.MOVE);
+        request.setData("x", x);
+        request.setData("y", y);
+        request.setData("target", player2);
+        sendRequest(request);
+    }
+    private void handleMove(Handler request) {
+        myTurn = true;
+        Platform.runLater(() -> {
+            btns[Integer.parseInt(request.getData("x"))][Integer.parseInt(request.getData("y"))].setGraphic(new ImageView(IAmX?"/resources/images/o.png":"/resources/images/x.png"));
+            if(Integer.parseInt(request.getData("x")) == 0){
+                if(Integer.parseInt(request.getData("y")) == 0){
+                    ClientApp.gameController.flag1 = 1;
+                }else if(Integer.parseInt(request.getData("y")) == 1){
+                    ClientApp.gameController.flag2 = 1;
+                }
+                else{
+                    ClientApp.gameController.flag3 = 1;
+                }
+            }else if(Integer.parseInt(request.getData("x")) == 1){
+                if(Integer.parseInt(request.getData("y")) == 0){
+                    ClientApp.gameController.flag4 = 1;
+                }
+                else if(Integer.parseInt(request.getData("y")) == 1){
+                    ClientApp.gameController.flag5 = 1;
+                }
+                else{
+                    ClientApp.gameController.flag6 = 1;
+                }
+            }else{
+                if(Integer.parseInt(request.getData("y")) == 0){
+                    ClientApp.gameController.flag7 = 1;
+                }
+                else if(Integer.parseInt(request.getData("y"))==1){
+                    ClientApp.gameController.flag1 = 8;
+                }
+                else{
+                    ClientApp.gameController.flag9=1;
+                }
+            }
+        });
+    }
+    private void handleGameOver(Handler request) {
+        //****win msg **play again(GAME_REQ) **home scene.
+        Platform.runLater(() -> {
+            if(request.getData("line").equals("You lose !")||request.getData("line").equals("Draw !")){
+                btns[Integer.parseInt(request.getData("x"))][Integer.parseInt(request.getData("y"))].setGraphic(new ImageView(IAmX?"/resources/images/o.png":"/resources/images/x.png"));
+            }
+        });
+        String msg = request.getData("line");
+        Platform.runLater(() -> {
+            if(player2!=null&&player2.equals("computer")){
+                Alert alert = new Alert(AlertType.CONFIRMATION, msg, new ButtonType("Play again", ButtonData.OK_DONE), new ButtonType("cancel", ButtonData.NO));
+                alert.setTitle("Game over");
+                alert.showAndWait();
+                if (alert.getResult().getButtonData() == ButtonData.OK_DONE) {
+                    for(int i=0;i<3;i++){
+                        for(int j=0;j<3;j++){
+                            btns[i][j].setGraphic(new ImageView("/resources/images/empty.png"));
+                        }
+                    }
+                    playWithAI();
+                }else{
+                    for(int i=0;i<3;i++){
+                        for(int j=0;j<3;j++){
+                            btns[i][j].setGraphic(new ImageView("/resources/images/empty.png"));
+                        }
+                    }
+                    ClientApp.primaryStage.hide();
+                    ClientApp.primaryStage.setScene(main.ClientApp.home);
+                    ClientApp.primaryStage.show();
+                            primaryStage.getIcons().add(new Image(getClass().getResource("/resources/images/icon.png").toString()));
+                }
+            }else{
+                Alert alert = new Alert(AlertType.INFORMATION, msg, new ButtonType("GO To Home page", ButtonData.OK_DONE));
+                alert.setTitle("Game over");
+                alert.setHeaderText("Game over");
+                alert.setContentText(msg);
+                alert.showAndWait();
+                if (alert.getResult().getButtonData() == ButtonData.OK_DONE){
+                    for(int i=0;i<3;i++){
+                        for(int j=0;j<3;j++){
+                            btns[i][j].setGraphic(new ImageView("/resources/images/empty.png"));
+                        }
+                    }
+                }
+                ClientApp.primaryStage.hide();
+                    ClientApp.primaryStage.setScene(main.ClientApp.home);
+                    ClientApp.primaryStage.show();
+            }
+        });
+        myTurn=false;
+    }
+    
+    
+    
+    
+    
+    
     
     public String getOpponentName(){
         if(player2 == null)
