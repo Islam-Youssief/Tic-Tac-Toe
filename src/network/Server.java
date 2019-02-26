@@ -10,7 +10,7 @@ import static network.ServerSession.onlinePlayers;
 
 /**
  *
- * @author ISLAM
+ * @author ABDO
  */
 public class Server {
     // return all the players from db
@@ -19,7 +19,6 @@ public class Server {
     private ServerSocket serverSocket;
     private Socket socket;
     public boolean running = false;
-
     public boolean startServer(int portNumber) throws IOException{
         serverSocket = new ServerSocket(portNumber);
         this.portNumber = portNumber;
