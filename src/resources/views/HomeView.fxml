@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane id="home" hgap="5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" styleClass="mainFxmlClass" vgap="5" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10" />
+    </padding>
+    <GridPane id="Info" alignment="CENTER" hgap="10" prefHeight="277.0" prefWidth="559.0" vgap="10" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+      <ImageView fitHeight="225.0" fitWidth="519.0">
+         <image>
+            <Image url="@../images/book.jpg" />
+         </image>
+      </ImageView>
+          <GridPane id="name" hgap="10" prefHeight="262.0" prefWidth="519.0" vgap="10">
+              <padding>
+                  <Insets bottom="10" left="10" right="10" top="10" />
+              </padding>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" percentHeight="30.0" prefHeight="30.0" />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+         <children>
+                <GridPane id="score" hgap="10" prefHeight="150" prefWidth="250" vgap="10" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                    <padding>
+                        <Insets bottom="10" left="00" right="10" top="10" />
+                    </padding>
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+               <children>
+                     <GridPane id="all" alignment="CENTER" hgap="10" prefHeight="300" prefWidth="250" vgap="10" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                         <padding>
+                             <Insets bottom="10" left="00" right="10" top="10" />
+                         </padding>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
+                     </GridPane>
+               </children>
+                </GridPane>
+            <ImageView fx:id="playerImgView" fitHeight="128.0" fitWidth="151.0" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <image>
+                  <Image url="@../images/human.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </ImageView>
+            <Label fx:id="playerName" text="XXXXXX " textFill="#80538f" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label id="lbl" text="Score:" textFill="#480c5c" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <Label fx:id="playerScore" prefHeight="42.0" prefWidth="122.0" text="XXXX" textFill="#420b54" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+         </children>
+          </GridPane>
+      <columnConstraints>
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints maxHeight="357.6000244140625" minHeight="234.4000122070312" prefHeight="237.59999389648434" />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+      <GridPane.margin>
+         <Insets top="80.0" />
+      </GridPane.margin>
+    </GridPane>
+    <GridPane id="playersList" hgap="10" prefHeight="216.0" prefWidth="561.0" vgap="5" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+        <padding>
+            <Insets bottom="5" left="10" right="10" top="5" />
+        </padding>
+        <Label text="Players List :" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin></Label>
+        <Label text="                               " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TableView fx:id="allPlayersTable" prefHeight="228.0" prefWidth="530.0" styleClass="table" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+            <columns>
+                <TableColumn fx:id="colUsername" prefWidth="149.6000354886055" text="Player">
+                </TableColumn>
+                <TableColumn fx:id="colStatus" prefWidth="171.99996948242188" text="Status">
+                </TableColumn>
+                <TableColumn fx:id="colScore" prefWidth="207.20004272460938" text="Score">
+                </TableColumn>
+            </columns>    
+        </TableView>
+        <HBox spacing="1" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+    </GridPane>
+   <Button fx:id="logout1" onAction="#handleButton_logout_Action" prefHeight="38.0" prefWidth="80.0" text="Out" textFill="#ede9e9" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+     <GridPane id="buttons" alignment="CENTER" hgap="30" prefHeight="235.0" prefWidth="500.0" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <padding>
+             <Insets bottom="5" left="10" right="10" top="5" />
+         </padding>
+         <HBox spacing="1" GridPane.columnIndex="1" GridPane.rowIndex="0">
+             <Button fx:id="invite" onAction="#handleButton_invite_Action" prefHeight="48.0" prefWidth="251.0" text="    Invite Player    ">
+            <padding>
+               <Insets left="100.0" />
+            </padding>
+         </Button>
+         </HBox>
+         <HBox spacing="1" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+          <Button fx:id="arcade" onAction="#handleButton_arcade_Action" prefHeight="48.0" prefWidth="251.0" text="Play VS Computer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <columnConstraints>
+         <ColumnConstraints minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+     </GridPane>
+   <TableView prefHeight="66.0" prefWidth="479.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+     <columns>
+         <TableColumn fx:id="notifud" prefWidth="478.4000244259834" text="Notification Body" />
+     </columns>
+   </TableView>
+   <Button fx:id="notificationid" onAction="#handleButton_notcton_Action" prefHeight="38.0" prefWidth="34.0" text="N" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <GridPane.margin>
+         <Insets left="5.0" />
+      </GridPane.margin>
+   </Button>
+    <stylesheets>
+        <URL value="@../styles/home.css" />
+    </stylesheets>
+   <columnConstraints>
+      <ColumnConstraints minWidth="8.0" prefWidth="50.0" />
+      <ColumnConstraints />
+      <ColumnConstraints minWidth="10.0" percentWidth="10.0" prefWidth="10.0" />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="20.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints prefHeight="250.0" />
+      <RowConstraints minHeight="180.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="250.0" />
+   </rowConstraints>
+</GridPane>
