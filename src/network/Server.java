@@ -31,7 +31,7 @@ public class Server {
         running = false;
         Handler notification = new Handler(Handler.HandType.TERM);
         for(Map.Entry<String, ServerSession> session : onlinePlayers.entrySet()){
-            session.getValue().sendRequest(notification);
+            session.getValue().sendRequest(notification);//hhhh
         }
         try{
             serverSocket.close();

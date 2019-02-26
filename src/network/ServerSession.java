@@ -163,7 +163,126 @@ public class ServerSession extends Thread{
            result.setData("signal", Handler.FAILURE);}
         sendRequest(result);
         
+    }
+    public void sendRequest(Handler request){
+        try{
+            this.upLink.writeObject(request);
+        }catch(IOException ioex){
+            //error cannot send request to client
+        }
+    }
+    public void chatHandler(Handler request){
+        onlinePlayers.get(request.getData("sender")).sendRequest(request);
+        if(!request.getData("sender").equals(request.getData("receiver"))){
+            if(onlinePlayers.containsKey(request.getData("receiver")))
+                onlinePlayers.get(request.getData("receiver")).sendRequest(request);    
+        }            
+    }
+    private void broadcastNewPlayer(Player newPlayer){
+        onlinePlayers.entrySet().forEach((session) -> {
+            Handler request = new Handler(Handler.HandType.INIT);
+            request.setData("login_name", newPlayer.getLoginName());
+            request.setData("score", String.valueOf(newPlayer.getTotalPoints()));
+            request.setData("pic_path", newPlayer.getPicPath());
+            request.setData("status", newPlayer.getStatus());
+            session.getValue().sendRequest(request);
+        });
+    }
     
+    public void requestGame(Handler incoming){
+        //handle request from client 1 and forward it to client2
+        Handler outgoing=new Handler(Handler.HandType.GAME_REQUEST,"source",player.getLoginName());
+        if(onlinePlayers.containsKey(incoming.getData("destination"))){
+            onlinePlayers.get(incoming.getData("destination")).sendRequest(outgoing);
+            
+            ServerApp.server.allPlayers.get(player.getLoginName()).setStatus(Handler.BUSYSTATUS);
+            ServerSession.onlinePlayers.get(player.getLoginName()).pushNotification("status", Handler.BUSYSTATUS);
+            ServerApp.server.allPlayers.get(incoming.getData("destination")).setStatus(Handler.BUSYSTATUS);
+            ServerSession.onlinePlayers.get(incoming.getData("destination")).pushNotification("status", Handler.BUSYSTATUS);
+            ServerApp.serverController.refreshPlayersTable();
+        }
+    }
+    
+    public void respondGame(Handler incoming)
+    {
+        //handle response from client 2 and forward it to client1
+        if(incoming.getData("response").equals("accept"))
+        {
+                game=new Game(incoming.getData("destination"),player.getLoginName());
+                onlinePlayers.get(incoming.getData("destination")).game=game;
+        }
+        else
+        {
+            ServerApp.server.allPlayers.get(player.getLoginName()).setStatus(Handler.ONLINESTATUS);
+            ServerSession.onlinePlayers.get("destination").pushNotification("status", Handler.ONLINESTATUS);
+            ServerApp.serverController.refreshPlayersTable();
+        }
+        Handler outgoing=new Handler(Handler.HandType.GAME_RESPONSE,"source",player.getLoginName());
+        outgoing.setData("response", incoming.getData("response"));
+        if(onlinePlayers.containsKey(incoming.getData("destination"))){
+            onlinePlayers.get(incoming.getData("destination")).sendRequest(outgoing);        
+        }
+    }
+    
+    private void AIrequestGame()
+    {
+        ServerApp.server.allPlayers.get(player.getLoginName()).setStatus(Handler.BUSYSTATUS);
+        ServerSession.onlinePlayers.get(player.getLoginName()).pushNotification("status", Handler.BUSYSTATUS);
+        ServerApp.serverController.refreshPlayersTable();
+    }
+    private void handleMove(Handler request) throws ClassNotFoundException {
+         if(request.getData("target")!=null&&request.getData("target").equals("computer")){
+                System.out.println("Testing ....");
+         }
+         else
+         {
+            if(game.validateMove(player.getLoginName(), Integer.parseInt(request.getData("x")), Integer.parseInt(request.getData("y")))){
+                switch (game.checkForWin(player.getLoginName(), Integer.parseInt(request.getData("x")), Integer.parseInt(request.getData("y"))))
+                {
+                    case "gameOn":
+                        if(game.incMove%2==0)
+                            onlinePlayers.get(game.getPlayer1()).sendRequest(request);
+                        else
+                            onlinePlayers.get(game.getPlayer2()).sendRequest(request);
+                        break;
+                    case "win" :
+                        sendRequest(new Handler(Handler.HandType.GAME_OVER,"line","You win !"));
+                        Handler lose=new Handler(Handler.HandType.GAME_OVER,"line","You lose !");
+                        String username=player.getLoginName();
+                        model.PlayerDB.updateScoreWin(username);
+                        ServerApp.server.allPlayers.get(this.player.getLoginName()).setTotalPoints(ServerApp.server.allPlayers.get(this.player.getLoginName()).getTotalPoints()+10);
+                        ServerApp.serverController.refreshPlayersTable();
+                        lose.setData("x", request.getData("x"));
+                        lose.setData("y", request.getData("y"));
+                        onlinePlayers.get(game.incMove%2==1?game.getPlayer1():game.getPlayer2()).sendRequest(lose);
+                        ServerApp.server.allPlayers.get(game.getPlayer1()).setStatus(Handler.ONLINESTATUS);
+                        ServerSession.onlinePlayers.get(game.getPlayer1()).pushNotification("status", Handler.ONLINESTATUS);
+                        ServerApp.server.allPlayers.get(game.getPlayer2()).setStatus(Handler.ONLINESTATUS);
+                        ServerSession.onlinePlayers.get(game.getPlayer2()).pushNotification("status", Handler.ONLINESTATUS);
+                        ServerApp.serverController.refreshPlayersTable();
+                        game=null;
+                        break;
+                    case "draw":
+                        sendRequest(new Handler(Handler.HandType.GAME_OVER,"line","Draw !"));
+                        Handler draw=new Handler(Handler.HandType.GAME_OVER,"line","Draw !");
+                        String username2=player.getLoginName();
+                        model.PlayerDB.updateScoreDraw(username2);
+                       
+                        ServerApp.server.allPlayers.get(this.player.getLoginName()).setTotalPoints(ServerApp.server.allPlayers.get(this.player.getLoginName()).getTotalPoints()+5);
+                        draw.setData("x", request.getData("x"));
+                        draw.setData("y", request.getData("y"));
+                        onlinePlayers.get(game.incMove%2==1?game.getPlayer1():game.getPlayer2()).sendRequest(draw);
+                        ServerApp.server.allPlayers.get(game.getPlayer1()).setStatus(Handler.ONLINESTATUS);
+                        ServerSession.onlinePlayers.get(game.getPlayer1()).pushNotification("status", Handler.ONLINESTATUS);
+                        ServerApp.server.allPlayers.get(game.getPlayer2()).setStatus(Handler.ONLINESTATUS);
+                        ServerSession.onlinePlayers.get(game.getPlayer2()).pushNotification("status", Handler.ONLINESTATUS);
+                        ServerApp.serverController.refreshPlayersTable();
+                        game=null;
+                        break;
+                }
+            }
+        
+
         }
     }
 }
