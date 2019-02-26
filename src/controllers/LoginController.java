@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import model.Player;
 /**
  *
- * @author ISLAM
+ * @author AYA
  */
 public class LoginController implements Initializable {
     @FXML private Text actiontarget;

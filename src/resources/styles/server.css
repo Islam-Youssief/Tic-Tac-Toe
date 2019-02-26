@@ -1,0 +1,21 @@
+#window{
+    
+     -fx-background-image: url("../images/metal.jpg") ;
+     -fx-background-repeat: no-repeat;
+     
+      -fx-background-size:stretch;
+     -fx-margin-top: 50px;
+}
+#key{
+   -fx-graphic: url("../images/swithoff.png");
+   -fx-background-color: transparent;
+   -fx-background-repeat: no-repeat;
+    -fx-background-size: contain;
+   -fx-font-family: "Lucida Calligraphy";
+
+}
+#tableView{
+    -fx-background-color: activeborder;
+        -fx-font-family: "Lucida Calligraphy";
+
+}

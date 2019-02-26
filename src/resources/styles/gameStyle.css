@@ -1,0 +1,27 @@
+.stack{
+    -fx-background-color: #78bec5;
+    -fx-background-radius:2.5em;
+}
+
+.stack:hover{
+    -fx-background-color: #3d4250;
+    -fx-cursor: hand;
+ /*   background-color: #ecaf4f; Yellow for O*/
+ /*   background-color: #dc685a; Red for X*/
+}
+
+.stackClicked {
+    -fx-background-color: #eea10b;
+    -fx-background-radius:2.5em;
+
+}
+
+.stack:pressed {
+    -fx-background-color: red;
+}
+
+.gameCenter{
+    -fx-padding: 10px;
+    -fx-hgap:10 ;
+    -fx-vgap:10;
+}

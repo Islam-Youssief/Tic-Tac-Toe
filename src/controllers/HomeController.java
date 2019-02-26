@@ -33,7 +33,7 @@ import play_with_computer.PlayWithComputer;
 /**
  * FXML Controller class
  *
- * @author ISLAM
+ * @author AYA
  */
 
 public class HomeController implements Initializable {
