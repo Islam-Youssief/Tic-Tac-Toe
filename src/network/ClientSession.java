@@ -125,6 +125,76 @@ public class ClientSession {
                 break;
         }
     }
+    public boolean loginToServer(String username, String password){
+        Handler request = new Handler(Handler.HandType.LOGIN);
+        request.setData("login_name", username);
+        request.setData("password", password);
+        if(connected){
+            sendRequest(request);
+            while(connected){
+                try{
+                    Handler response = (Handler)downLink.readObject();
+                    if(response.getType() == Handler.HandType.LOGIN){
+                        if(response.getData("signal").equals(Handler.SUCCESS)){
+                            loggedin = true;
+                            player = new Player();
+                            player.setLoginName(response.getData("login_name"));
+                            player.setFname(response.getData("first_name"));
+                            player.setLname(response.getData("last_name"));
+                            player.setPicPath(response.getData("pic_path"));
+                            player.setTotalPoints(Integer.parseInt(response.getData("score")));
+                            startCommunication();
+                
+                        loginName = request.getData("login_name");
+                        // store notification in db
+                        Vector<String> allNotifi = new Vector<String>();
+                        System.out.println("bhjbhjgh");
+                        if (allNotifi.indexOf(loginName) == -1 )
+                        {
+//                            System.out.println(allNotifi);
+                            allNotifi.add(loginName);
+                            String statusNotfication = loginName +" Is Online Now";
+                            PlayerDB.setNotification(statusNotfication);
+                        }                        
+                        }
+                        break;
+                    }else
+                        requestHandle(response);
+                }catch(IOException ioex){
+                }catch(ClassNotFoundException cnfex){
+                }
+                
+            }
+            
+        }
+        return loggedin;
+    }
+    public boolean playerSignup(String fname, String lname, String username, String password, String picpath) {
+        boolean regResult = false;
+        Handler request = new Handler(Handler.HandType.REGISTER);
+        request.setData("login_name", username);
+        request.setData("password", password);
+        request.setData("first_name",fname);
+        request.setData("last_name",lname);
+        request.setData("pic_path",picpath);
+        if(connected){
+            sendRequest(request);
+            while(connected){
+                try{
+                    Handler response = (Handler)downLink.readObject();
+                    if(response.getType() == Handler.HandType.REGISTER){
+                        if(response.getData("signal").equals(Handler.SUCCESS)){
+                            regResult = true;
+                        }
+                        break;
+                    }
+                }catch(IOException ioex){
+                }catch(ClassNotFoundException cnfex){
+                }
+            }
+        }
+        return regResult;
+    }
     private void sendRequest(Handler request){
         try{
             upLink.writeObject(request);
@@ -133,31 +203,56 @@ public class ClientSession {
                 
         }
     }
+    public void updatePlayersList(Handler request){
+        if(!request.getData("login_name").equals(this.player.getLoginName())){
+            if(request.getType() == Handler.HandType.INIT){
+                Player newPlayer = new Player();
+                newPlayer.setLoginName(request.getData("login_name"));
+                newPlayer.setStatus(request.getData("status"));
+                newPlayer.setTotalPoints(Integer.parseInt(request.getData("score")));
+                newPlayer.setPicPath(request.getData("pic_path"));
+                allPlayers.put(request.getData("login_name"), newPlayer);
+            }else if(request.getType() == Handler.HandType.NOTIFY){
+                switch(request.getData("key")){
+                    case "status":
+                        allPlayers.get(request.getData("login_name")).setStatus(request.getData("value"));
+                        
+                        break;
+                    case "score":
+                        allPlayers.get(request.getData("login_name")).setTotalPoints(Integer.parseInt(request.getData("value")));
+                        // store notification in dv
+                        String scoreNotfication = request.getData("login_name") +" Has New Score : "+request.getData("value");
+                        PlayerDB.setNotification(scoreNotfication);
+                        break;
+                        
+                }
+            }
+            Platform.runLater(ClientApp.homeController::bindPlayersTable);
+        }else{
+            if(request.getType() == Handler.HandType.NOTIFY && request.getData("key").equals("score")){
+                player.setTotalPoints(Integer.parseInt(request.getData("value")));
+                Platform.runLater(ClientApp.homeController::playerInfo);
+            }
+        }
+    }
     public void chatHandler(Handler request){
         Platform.runLater(() -> {
             String msg = "~>"+request.getData("sender")+": "+request.getData("text")+"\n";
             ClientApp.gameController.txt_area.appendText(msg);
         });
     }
-    
-    public void sendResponse(boolean response){
-        IAmX=false;
-        Handler outgoing=new Handler(Handler.HandType.GAME_RESPONSE,"destination",player1);
-        outgoing.setData("response",response?"accept":"deny");
-        sendRequest(outgoing);
-    }
-    public void handleResponse(Handler incoming){
-        if(incoming.getData("response").equals("accept")){
-            IAmX = true;
-            myTurn = true;
-            player2 = incoming.getData("source");
-            Platform.runLater(() -> {
-                ClientApp.primaryStage.setScene(main.ClientApp.game);
-                ClientApp.gameController.resetScene();
-                ClientApp.gameController.img = new Image(ClientSession.this.getClass().getResourceAsStream("/resources/images/x.png"));
-            });
-        }else{
-            //other player rejected request
+    public void sendChatMessage(String text){
+        if(!text.equals("")){
+            Handler request = new Handler(Handler.HandType.CHAT);
+            String receiver;
+            if(player1 == null)
+                receiver = player2;
+            else
+                receiver = player1;
+            request.setData("sender", player.getLoginName());
+            request.setData("receiver", receiver);
+            request.setData("text", ClientApp.gameController.txt_field.getText());
+            sendRequest(request);
         }
     }
     
