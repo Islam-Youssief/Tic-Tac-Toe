@@ -22,7 +22,12 @@ public class TestDBCases {
 //            System.out.println(p.playerExisted("islam"));
 //            System.out.println(p.playerAuth("islam","islam"));
 //            System.out.println(p.updateScoreWin("islam"));
-//         
+//            System.out.println(p.insertPlayer("omar", "osama", "omar", "omar", "pic3.png"));
+//           System.out.println(p.getpicpath("ahmed"));
+//               System.out.println(p.setNotification("islam is online"));
+//               System.out.println(p.getNotification());
+               System.out.println( p.getNotification());
+//              System.out.println(p.ClearNotification());
                 
     } 
     

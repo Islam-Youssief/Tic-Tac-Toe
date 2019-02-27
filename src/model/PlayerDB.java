@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package model;
 
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
@@ -151,7 +155,97 @@ public class PlayerDB {
         }
     }
      
-     
+      public static boolean insertPlayer(String fname,String lname ,String username,String password,String picpath) throws ClassNotFoundException {
+        try {
+            Connection conn = Connect();
+            Statement stmt = conn.createStatement();
+            String queryString = "INSERT INTO `player` ( `first_name`, `last_name`, `login_name`, `password`, `total_points`,status ,`pic_path`) VALUES ('" +fname + "', '" + lname + "', '" + username + "', '" + password + "', '" + 0 +"','offline', '" + picpath + "')";
+            stmt.executeUpdate(queryString);
+            stmt.close();
+            CloseConnection(conn);
+            return true;
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Failed to insert user !");
+            return false;
+        }
+    }
+   
+       public static String getpicpath(String username) throws ClassNotFoundException, SQLException {
+        String picpath = null;
+            Connection conn = Connect();
+            Statement stmt = conn.createStatement();
+            String queryString = "SELECT pic_path FROM player WHERE login_name = '" + username + "'";
+            ResultSet rs = stmt.executeQuery(queryString);
+            while (rs.next()) {
+                picpath = rs.getString(1);
+            }
+            stmt.close();
+            conn.close();
+        
+        return picpath;
+    }
+    public static boolean setNotification(String notificationBody) {
+        try{    
+            Connection conn = Connect();
+            Statement stmt = conn.createStatement();
+            Date d = new Date();
+            String insertStatment = "insert into `notification` (`notification_body`,`notification_time`) VALUES ('"+notificationBody +"'"+", '"+d+"')";            
+            System.out.println(insertStatment);
+            stmt.executeUpdate(insertStatment);
+            stmt.close();
+            CloseConnection(conn);            
+            return true;
+        }
+        catch (Exception ex ) {
+            return false;
+        }
+        
+    }
+
+    public static Vector<String> getNotification() {
+        try{    
+            String notifbody = "";
+            String notifTime = "";
+            
+            Vector<String> allNotifications = new Vector<String>();
+            Connection conn = Connect();
+            Statement stmt = conn.createStatement();
+            String queryString = "SELECT notification_body,notification_time FROM notification";
+            ResultSet rs = stmt.executeQuery(queryString);        
+            while (rs.next())
+            {
+                notifbody = rs.getString(1);
+                notifTime = rs.getString(2);
+                allNotifications.add("\t"+notifbody +" : "+notifTime+"\n");
+//                System.out.println(notifbody +" : "+notifTime);
+            }
+            stmt.close();
+            CloseConnection(conn);  
+            return  allNotifications;
+        }
+        catch (Exception ex ) {
+            return null;
+        } 
+    } 
+    public static boolean ClearNotification() {
+        try{    
+            Connection conn = Connect();
+            Statement stmt = conn.createStatement();
+            String queryString = "delete from notification";
+            stmt.executeUpdate(queryString);
+            stmt.close();
+            CloseConnection(conn);
+            return true;
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Failed to Clear notifications");
+            return false;
+        }
+           
+    } 
 }
     
     
