@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import controllers.ServerController;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import network.Server;
 
@@ -31,10 +30,6 @@ public class ServerApp extends Application {
         stage.setTitle("TicTacToe Server");
         stage.setScene(serverScene);
         stage.show();
-        
-//         loginMediaPlayer = new MediaPlayer(new Media(getClass().getResource("../resources/music/Island_Fever.mp3").toString()));
-//        loginMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-//        loginMediaPlayer.play();
         primaryStage.setOnCloseRequest((event) -> {
             if(server.running)
                 server.stopServer();

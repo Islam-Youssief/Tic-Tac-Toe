@@ -1,13 +1,11 @@
 package play_with_computer;
 
 /**
- * Created by El-Samman.
+ * Created by Elsamman.
  */
 public class ComputerPlayer {
     private int x, y;
-
     private int difficulty;
-
     private int [][] board;
     public int level = PlayWithComputer.level;
     private int boardCellUsed;
@@ -85,7 +83,7 @@ public class ComputerPlayer {
         for(int i = 0; i < 3; i++) {
             int rowSum = 0;
             int colSum = 0;
-
+            
             for(int j = 0; j < 3; j++) {
                 rowSum += board[i][j];
                 colSum += board[j][i];
@@ -94,9 +92,7 @@ public class ComputerPlayer {
             invDiagSum += board[i][2 - i];
             row |= (rowSum == score);
             col |= (colSum == score);
-
         }
-
         return row || col || (diagSum == score) || (invDiagSum == score);
     }
 

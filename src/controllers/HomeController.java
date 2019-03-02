@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import network.Handler;
 import main.ClientApp;
 import model.Player;
@@ -14,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -33,7 +31,7 @@ import play_with_computer.PlayWithComputer;
 /**
  * FXML Controller class
  *
- * @author AYA
+ * @author Aya
  */
 
 public class HomeController implements Initializable {
@@ -71,7 +69,8 @@ public class HomeController implements Initializable {
         );
         primaryStage = ClientApp.primaryStage;
         allPlayersTable.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener());        
-    }   
+    }  
+
     private class RowSelectChangeListener implements ChangeListener {
         @Override
         public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -101,6 +100,7 @@ public class HomeController implements Initializable {
                 alert.showAndWait();      
         
     }
+
     @FXML protected void handleButton_logout_Action(ActionEvent event) {
         ClientApp.session.closeConnection();
         primaryStage.setScene(main.ClientApp.signIn);
@@ -115,6 +115,7 @@ public class HomeController implements Initializable {
                 AI.start(primaryStage);
                
     }
+
     @FXML public void playerInfo() {
         try{
         playerName.setText(ClientApp.session.player.getLoginName());
@@ -126,20 +127,19 @@ public class HomeController implements Initializable {
         ClientApp.homeController.playerImgView.setImage(playerImg);
         allPlayersTable.getSelectionModel().selectFirst();
     }
+
     public void bindPlayersTable(){
         playersData.clear(); 
         ClientSession.allPlayers.entrySet().forEach((player) -> {
-            //islam
-            String x = player.getValue().getStatus();
+        String x = player.getValue().getStatus();
         if (!x.equals("Offline") )
         {
-                System.err.println("dsf");
+        System.err.println("dsf");
         playersData.add(player.getValue());}
-         
-//        playersData.add(player.getValue());
         });
         allPlayersTable.setItems(playersData);
     }
+    
     public void showAlert(String playerName){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, playerName+" wants to play with you", ButtonType.NO, ButtonType.YES);
         if (alert.showAndWait().get() == ButtonType.YES) {

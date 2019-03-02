@@ -1,0 +1,34 @@
+#root {
+     -fx-background-image: url("../images/wood2.jpg") ;
+     -fx-background-repeat: no-repeat;
+      -fx-background-size:stretch;
+     -fx-margin-top: 50px;
+}
+#img {
+     -fx-background-image: url("../images/tic_tac_toe.png") ;
+     -fx-background-repeat: no-repeat;
+     
+      -fx-background-size:stretch;
+     -fx-margin-top: 50px;
+}
+
+.button {
+    -fx-background-color: rgb(86,109,161);
+    -fx-background-radius: 15;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill:honeydew;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 10 10 10 10;
+    -fx-margin-Top:50px;
+}
+.button:hover {
+     -fx-background-color: #9fcbf4;
+}
+.label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: whitesmoke;
+    -fx-font-family: "Lucida Calligraphy";
+
+}

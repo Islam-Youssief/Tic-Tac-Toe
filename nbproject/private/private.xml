@@ -3,18 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/controllers/MainController.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/network/Server.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/play_with_computer/PlayWithComputer.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/controllers/LoginController.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/network/Handler.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/main/ClientApp.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/main/ServerApp.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/controllers/HomeController.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/model/PlayerDB.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/network/ServerSession.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/controllers/ServerController.java</file>
-            <file>file:/C:/Users/abdo/Desktop/islam2/TicTacToe_2/src/play_with_computer/ComputerPlayer.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/controllers/LoginController.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/network/ServerSession.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/controllers/GameController.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/play_with_computer/PlayWithComputer.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/controllers/ServerController.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/main/ServerApp.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/model/Player.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/model/TestDBCases.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/model/PlayerDB.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/network/Handler.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/controllers/HomeController.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/play_with_computer/Game.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/main/ClientApp.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/play_with_computer/ComputerPlayer.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/controllers/SignupController.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/network/Server.java</file>
+            <file>file:/C:/Users/ENG_SEMOOOOOOOZ/Music/work/final%20commit/src/network/ClientSession.java</file>
         </group>
     </open-files>
 </project-private>

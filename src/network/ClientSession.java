@@ -21,7 +21,7 @@ import model.PlayerDB;
 
 /**
  *
- * @author ISLAM
+ * @author Abdo
  */
 public class ClientSession {
     public static HashMap<String, Player> allPlayers = new HashMap<String, Player>();
@@ -38,15 +38,16 @@ public class ClientSession {
     public boolean IAmX=false;
     public boolean myTurn;
     private Button[][] btns = {
-                {ClientApp.gameController.b1,ClientApp.gameController.b2,ClientApp.gameController.b3},
-                {ClientApp.gameController.b4,ClientApp.gameController.b5,ClientApp.gameController.b6},
-                {ClientApp.gameController.b7,ClientApp.gameController.b8,ClientApp.gameController.b9}};
+    {ClientApp.gameController.b1,ClientApp.gameController.b2,ClientApp.gameController.b3},
+    {ClientApp.gameController.b4,ClientApp.gameController.b5,ClientApp.gameController.b6},
+    {ClientApp.gameController.b7,ClientApp.gameController.b8,ClientApp.gameController.b9}};
     String loginName;
     
     public ClientSession(String ipAddress, int portNumber){
         this.ipAddress = ipAddress;
         this.portNumber = portNumber;
     }
+
     public void openConnection(){
         try {
             socket = new Socket(ipAddress, portNumber);
@@ -57,6 +58,7 @@ public class ClientSession {
             connected = false;
         }
     }
+
     public void closeConnection(){
         sendRequest(new Handler(Handler.HandType.LOGOUT));
         connected = false;
@@ -67,14 +69,15 @@ public class ClientSession {
         } catch (IOException ex) {
         }
     }
+
     public void terminateConnection(){
         closeConnection();
         Platform.runLater(() -> {
-//            islam
             ClientApp.primaryStage.setScene(ClientApp.signIn);
             ClientApp.loginController.terminateConnectino();
         });
     }
+
     private void startCommunication(){
         new Thread(() -> {
             while(connected){
@@ -125,6 +128,7 @@ public class ClientSession {
                 break;
         }
     }
+
     public boolean loginToServer(String username, String password){
         Handler request = new Handler(Handler.HandType.LOGIN);
         request.setData("login_name", username);
@@ -144,14 +148,11 @@ public class ClientSession {
                             player.setPicPath(response.getData("pic_path"));
                             player.setTotalPoints(Integer.parseInt(response.getData("score")));
                             startCommunication();
-                
-                        loginName = request.getData("login_name");
+                            loginName = request.getData("login_name");
                         // store notification in db
                         Vector<String> allNotifi = new Vector<String>();
-                        System.out.println("bhjbhjgh");
                         if (allNotifi.indexOf(loginName) == -1 )
                         {
-//                            System.out.println(allNotifi);
                             allNotifi.add(loginName);
                             String statusNotfication = loginName +" Is Online Now";
                             PlayerDB.setNotification(statusNotfication);
@@ -195,6 +196,7 @@ public class ClientSession {
         }
         return regResult;
     }
+
     private void sendRequest(Handler request){
         try{
             upLink.writeObject(request);
@@ -203,6 +205,7 @@ public class ClientSession {
                 
         }
     }
+
     public void updatePlayersList(Handler request){
         if(!request.getData("login_name").equals(this.player.getLoginName())){
             if(request.getType() == Handler.HandType.INIT){
@@ -215,16 +218,14 @@ public class ClientSession {
             }else if(request.getType() == Handler.HandType.NOTIFY){
                 switch(request.getData("key")){
                     case "status":
-                        allPlayers.get(request.getData("login_name")).setStatus(request.getData("value"));
-                        
+                        allPlayers.get(request.getData("login_name")).setStatus(request.getData("value")); 
                         break;
                     case "score":
                         allPlayers.get(request.getData("login_name")).setTotalPoints(Integer.parseInt(request.getData("value")));
-                        // store notification in dv
+                        // store notification in db
                         String scoreNotfication = request.getData("login_name") +" Has New Score : "+request.getData("value");
                         PlayerDB.setNotification(scoreNotfication);
-                        break;
-                        
+                        break;    
                 }
             }
             Platform.runLater(ClientApp.homeController::bindPlayersTable);
@@ -235,12 +236,14 @@ public class ClientSession {
             }
         }
     }
+
     public void chatHandler(Handler request){
         Platform.runLater(() -> {
             String msg = "~>"+request.getData("sender")+": "+request.getData("text")+"\n";
             ClientApp.gameController.txt_area.appendText(msg);
         });
     }
+    
     public void sendChatMessage(String text){
         if(!text.equals("")){
             Handler request = new Handler(Handler.HandType.CHAT);
@@ -255,11 +258,13 @@ public class ClientSession {
             sendRequest(request);
         }
     }
+
     public void requestGame(String secondPlayerName){
         //**ALERT** waiting for other player response with cancel button
         Handler request=new Handler(Handler.HandType.GAME_REQUEST,"destination",secondPlayerName);
         sendRequest(request);
     }
+
     public void respondToRequest(Handler incoming){
         //**Alert** with the request from **playerRequestingGame** returns boolean **accept**
         player1=incoming.getData("source");
@@ -267,12 +272,14 @@ public class ClientSession {
             ClientApp.homeController.showAlert(player1);
         });
     }
+
     public void sendResponse(boolean response){
         IAmX=false;
         Handler outgoing=new Handler(Handler.HandType.GAME_RESPONSE,"destination",player1);
         outgoing.setData("response",response?"accept":"deny");
         sendRequest(outgoing);
     }
+
     public void handleResponse(Handler incoming){
         if(incoming.getData("response").equals("accept")){
             IAmX = true;
@@ -287,6 +294,7 @@ public class ClientSession {
             //other player rejected request
         }
     }
+
     public void playWithAI(){
         ClientApp.gameController.resetScene();
         sendRequest(new Handler(Handler.HandType.AIGAME_REQUEST));
@@ -296,6 +304,7 @@ public class ClientSession {
         myTurn = true;
         ClientApp.gameController.img = new Image(getClass().getResourceAsStream("/resources/images/x.png"));
     }
+
     public void makeAMove(String x,String y) {
         myTurn = false;
         Handler request=new Handler(Handler.HandType.MOVE);
@@ -304,6 +313,7 @@ public class ClientSession {
         request.setData("target", player2);
         sendRequest(request);
     }
+
     private void handleMove(Handler request) {
         myTurn = true;
         Platform.runLater(() -> {
@@ -340,6 +350,7 @@ public class ClientSession {
             }
         });
     }
+
     private void handleGameOver(Handler request) {
         //****win msg **play again(GAME_REQ) **home scene.
         Platform.runLater(() -> {
@@ -392,13 +403,7 @@ public class ClientSession {
         myTurn=false;
     }
     
-    
-    
-    
-    
-    
-    
-    public String getOpponentName(){
+   public String getOpponentName(){
         if(player2 == null)
             return player1;
         return player2;

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane id="GridPane2" hgap="0" vgap="0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GameController">
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10" />
+    </padding>
+    <GridPane id="board" fx:id="bodyy" alignment="CENTER" hgap="5" prefHeight="600" prefWidth="400" vgap="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+        <GridPane id="buttons" alignment="CENTER" hgap="1" vgap="1" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <HBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+                <Button fx:id="b1" onAction="#handleButton1Action" /> 
+            </HBox> 
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="0"> 
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+                <Button fx:id="b2" onAction="#handleButton2Action" />  
+            </HBox> 
+            <HBox GridPane.columnIndex="2" GridPane.rowIndex="0"> 
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+                <Button fx:id="b3" onAction="#handleButton3Action" />   
+            </HBox> 
+            <HBox GridPane.columnIndex="0" GridPane.rowIndex="1"> 
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+                <Button fx:id="b4" onAction="#handleButton4Action" />   
+            </HBox> 
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="1"> 
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+                <Button fx:id="b5" onAction="#handleButton5Action" />   
+            </HBox> 
+            <HBox GridPane.columnIndex="2" GridPane.rowIndex="1"> 
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+                <Button fx:id="b6" onAction="#handleButton6Action" />   
+            </HBox> 
+            <HBox GridPane.columnIndex="0" GridPane.rowIndex="2"> 
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+                <Button fx:id="b7" onAction="#handleButton7Action" />   
+            </HBox> 
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="2"> 
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+                <Button fx:id="b8" onAction="#handleButton8Action" />   
+            </HBox> 
+            <HBox GridPane.columnIndex="2" GridPane.rowIndex="2"> 
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+                <Button fx:id="b9" onAction="#handleButton9Action" />   
+            </HBox>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints> 
+        </GridPane>
+        <GridPane id="info" fx:id="opopo" alignment="CENTER" hgap="10" prefHeight="168.0" prefWidth="560.0" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <padding>
+                <Insets bottom="5" left="10" right="10" top="5" />
+            </padding>
+            <Label fx:id="player1Name" text=" XXXX" textFill="#2e2949" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label fx:id="player2Name" text=" XXXX" textFill="#2e2949" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <Label fx:id="vs" alignment="center" text="           VS" textFill="#2e2949" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label fx:id="massge" text="It Is Your Turn " textFill="#2e2949" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+    </GridPane>
+    <GridPane id="chat" alignment="CENTER" hgap="5" prefHeight="600.0" prefWidth="210.0" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+        <Label fx:id="label" text="Chat:" textFill="#2e2949" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextArea fx:id="txt_area" prefHeight="480.0" prefWidth="206.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+        <TextField fx:id="txt_field" prefWidth="220" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <HBox alignment="bottom_right" spacing="1" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button fx:id="send" defaultButton="true" onAction="#handleButton_send_Action" text="&gt;" />
+        </HBox>
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+    </GridPane>
+    <stylesheets>
+        <URL value="@../styles/Game.css" />
+    </stylesheets>
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>

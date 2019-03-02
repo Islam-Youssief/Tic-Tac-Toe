@@ -1,11 +1,10 @@
 package model;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
  *This class is used to test db sql functions exists in PlayerDB class
- * @author ISLAM
+ * @author Arwa
  */
 public class TestDBCases {
     
@@ -15,8 +14,8 @@ public class TestDBCases {
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-       public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        PlayerDB p = new PlayerDB();
+//       public static void main(String[] args) throws SQLException, ClassNotFoundException {
+//        	  PlayerDB p = new PlayerDB();
          //   System.out.println( p.getAllPlayers().get("islam").getFullName()); 
 //            System.out.println(p.getPlayerInfo("islam").getFullName());
 //            System.out.println(p.playerExisted("islam"));
@@ -26,10 +25,10 @@ public class TestDBCases {
 //           System.out.println(p.getpicpath("ahmed"));
 //               System.out.println(p.setNotification("islam is online"));
 //               System.out.println(p.getNotification());
-               System.out.println( p.getNotification());
+               // System.out.println( p.getNotification());
 //              System.out.println(p.ClearNotification());
                 
-    } 
+//    } 
     
     
 }

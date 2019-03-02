@@ -5,22 +5,14 @@
  */
 package model;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.dateTime;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static javax.xml.datatype.DatatypeConstants.DATETIME;
 
 /**
  *
@@ -38,7 +30,7 @@ public class PlayerDB {
         String port = "3306";
         String DBName = "TicTacToe";
         String DBAdmin = "root";
-        String DBAdminPassword="";        
+        String DBAdminPassword="root";        
         connection = DriverManager.getConnection("jdbc:mysql://localhost:"+port+"/"+DBName, DBAdmin, DBAdminPassword);
         return connection;
     }

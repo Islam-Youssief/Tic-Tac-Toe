@@ -11,7 +11,6 @@ import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import static javafx.application.Application.launch;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -42,7 +41,6 @@ public class PlayWithComputer extends Application {
     private Text gameWin;
     private Text gameLose;
     private Text gameDraw;
-    public static int level;
     private Text gameCoopPlayer1Win;
     private Text gameCoopPlayer2Win;
     private Text gamePlayerText;
@@ -51,7 +49,8 @@ public class PlayWithComputer extends Application {
     private GridPane gameCenterGridPane;
     private boolean offlineMode;
     private boolean coopMode;
-    
+    public static int level;
+
     /**
      * Initializing game environment and initiating connection with the server
      */
@@ -64,13 +63,10 @@ public class PlayWithComputer extends Application {
     @Override
     public  void start(Stage primaryStage) {
         loginMediaPlayer = new MediaPlayer(new Media(getClass().getResource("../resources/music/Island_Fever.mp3").toString()));
-//        loginMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         gameMediaPlayer = new MediaPlayer(new Media(getClass().getResource("../resources/music/lke9c-f08rg.mp3").toString()));
-//        gameMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
- // Game begin
+         // Game begin
         gameBorderPane = new BorderPane();
         BorderPane gameTopBorderPane = new BorderPane();
-    
         gameTopBorderPane.setLeft(gamePlayerText);
         gameTopBorderPane.setRight(gameComputerText);
         gameBoardCellsText = new Text[3][3];
@@ -79,13 +75,11 @@ public class PlayWithComputer extends Application {
         gameDraw = new Text("Tie");
         gameCoopPlayer1Win = new Text("Player 1 Won");
         gameCoopPlayer2Win = new Text("Player 2 Won");
-
         gameWin.setVisible(false);
         gameLose.setVisible(false);
         gameDraw.setVisible(false);
         gameCoopPlayer1Win.setVisible(false);
         gameCoopPlayer2Win.setVisible(false);
-        
         gameCenterGridPane = new GridPane();
         gameCenterGridPane.getStyleClass().add("gameCenter");
         
@@ -100,7 +94,6 @@ public class PlayWithComputer extends Application {
                 final int I = i, J = j;
                 stackPane.setOnMouseClicked(e -> {
                     boolean gameEnd = false;
-
                     if (!gameBoardCellsText[I][J].getText().isEmpty()) {
                         return;
                     }
@@ -134,39 +127,17 @@ public class PlayWithComputer extends Application {
                        if (computerPlayer.checkDraw()) {
                             gameCenterGridPane.setEffect(new MotionBlur(160, 20));
                             gameDraw.setVisible(true);
-                            gameEnd = true;
-                            
-                            //islam
-//                            String tie = "There is no looser here , May be next time you will be a winner !.. ";
-//                             Alert alert =  new Alert(AlertType.INFORMATION, tie,
-//                                    new ButtonType("Go To Home Page",ButtonData.OK_DONE));
-//                            alert.setTitle("~~ Game Ended ~~");
-//                            alert.setHeaderText("\t\t\t\tSee You Soon");
-//                            alert.showAndWait();      
-//                            ClientApp.primaryStage.hide();
-//                            ClientApp.primaryStage.setScene(main.ClientApp.home);
-//                            ClientApp.primaryStage.show();
-                            
-                            
+                            gameEnd = true; 
                         }
                         if (gameEnd) {
                             System.out.println("End with player");
-//                            islam
-//                            Alert alert2 = new Alert(AlertType.CONFIRMATION, "teh end of the game", new ButtonType("Play again",
-//                                    ButtonData.OK_DONE), new ButtonType("Cancel", ButtonData.NO));
-                           
-
                             String winner = "\n\tCongratulations Player 2 ~> O ..  You Are A Winner !\n\n";
                             BooleanProperty ply1 = gameCoopPlayer1Win.visibleProperty();                                   
                             if(ply1.getValue())
-                                winner = "\n\tCongratulations Player 1 ~> X ..  You Are A Winner !\n\n";
-                            
+                                winner = "\n\tCongratulations Player 1 ~> X ..  You Are A Winner !\n\n";                            
                             BooleanProperty ply2 = gameCoopPlayer2Win.visibleProperty();                                   
                             if(!ply1.getValue() && !ply2.getValue())
-                            {
                                 winner = "\n\t NO looser here May be next time you will be a winner .. !\n\n";
-                            }
-                            
                             Alert alert =  new Alert(AlertType.INFORMATION, winner,
                                     new ButtonType("Go To Home Page",ButtonData.OK_DONE));
                             alert.setTitle("~~ Game Ended ~~");
@@ -207,13 +178,9 @@ public class PlayWithComputer extends Application {
                             BooleanProperty x = gameLose.visibleProperty();                                   
                             if(x.getValue())
                                 winner = "\n\tSorry For Loosing Player ..  Hard Luck Try Another Time !\n\n";
-                            
-                            
-                            BooleanProperty draww = gameDraw.visibleProperty();
+                             BooleanProperty draww = gameDraw.visibleProperty();
                             if(draww.getValue())
                                 winner = "\n\t Nice Try But Still a Tie.. Try Another Time !\n\n";
-                            
-                            
                             Alert alert =  new Alert(AlertType.INFORMATION, winner,
                                     new ButtonType("Go To Home Page",ButtonData.OK_DONE));
                             alert.setTitle("~~ Game Ended ~~");
@@ -221,14 +188,7 @@ public class PlayWithComputer extends Application {
                             alert.showAndWait();      
                             ClientApp.primaryStage.hide();
                             ClientApp.primaryStage.setScene(main.ClientApp.home);
-                            ClientApp.primaryStage.show();
-
-                            //islam
-//                            ClientApp.primaryStage.hide();
-//                            ClientApp.primaryStage.setScene(main.ClientApp.home);
-//                            ClientApp.primaryStage.show();
-                    
-                    
+                            ClientApp.primaryStage.show(); 
                        }
                     } 
 
@@ -237,7 +197,7 @@ public class PlayWithComputer extends Application {
                 gameCenterGridPane.add(stackPane, j, i);
             }
         }
-// showing board
+        // showing board
         StackPane gameCenterStackPane = new StackPane();
         gameCenterStackPane.getChildren().addAll(gameCenterGridPane, gameWin, gameDraw, gameLose, gameCoopPlayer1Win, gameCoopPlayer2Win);
         gameBorderPane.setCenter(gameCenterStackPane);
@@ -258,7 +218,7 @@ public class PlayWithComputer extends Application {
         selectGameModeVBox.getChildren().addAll(selectSingleModeButton, selectCoopModeButton);
         StackPane selectGameModePane = new StackPane();
         selectGameModePane.getChildren().add(selectGameModeVBox);
-       gameScene = new Scene(gameBorderPane, 700, 700);
+        gameScene = new Scene(gameBorderPane, 700, 700);
         selectDifficultyScene = new Scene(selectDifficultyPane, 700, 700);
         selectGameModeScene = new Scene(selectGameModePane, 700, 700);
         gameScene.getStylesheets().add(getClass().getResource("../resources/styles/choosingStyle.css").toString());
@@ -281,10 +241,6 @@ public class PlayWithComputer extends Application {
         rowConstraints.setPercentHeight(100 / 3.0);
         gameCenterGridPane.getRowConstraints().addAll(rowConstraints, rowConstraints, rowConstraints);
         gameCenterGridPane.getColumnConstraints().addAll(columnConstraints, columnConstraints, columnConstraints);
-        
-        //System.out.println(Font.font("Calibri", 72));
-       // System.out.println(Font.font("Lucida Calligraphy", 72));
-      
         gameWin.setFont(Font.font("Lucida Calligraphy", 72));
         gameWin.setFill(Color.FORESTGREEN);
         gameDraw.setFont(Font.font("Lucida Calligraphy", 72));
@@ -298,8 +254,7 @@ public class PlayWithComputer extends Application {
         gamePlayerText.setFont(Font.font("Lucida Calligraphy", 60));
         gamePlayerText.setFill(Color.LAWNGREEN);
         gameComputerText.setFont(Font.font("Lucida Calligraphy", 60));
-        gameComputerText.setFill(Color.PALEVIOLETRED);     
-   
+        gameComputerText.setFill(Color.PALEVIOLETRED);        
         // Handling Select Difficulty
         selectDifficultyEasyButton.setOnAction(e -> {
             level = 0;
@@ -359,17 +314,10 @@ public class PlayWithComputer extends Application {
      * Add certain effect to the game
      * @param effect effect applied to the board
      */
-
     public void setBlurEffectOnBoard(Effect effect) {
         Platform.runLater(() -> {
             gameBorderPane.setEffect(effect);
         });
 
-    }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 }

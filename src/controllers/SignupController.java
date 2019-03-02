@@ -13,18 +13,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import static main.ClientApp.primaryStage;
 
 /**
  *
- * @author AYA
+ * @author Aya
  */
 public class SignupController implements Initializable {
     
@@ -36,28 +34,23 @@ public class SignupController implements Initializable {
     @FXML private TextField firstName = new TextField();
     @FXML private TextField lastName = new TextField();
     @FXML private ImageView userPic = new ImageView();
-   // @FXML ListView<ImageView> imglist = new ListView<>();
     @FXML private ImageView v1 = new ImageView();
     private ObservableList list = FXCollections.observableArrayList();
     String avatar;
-    
     private final FileChooser fileChooser = new FileChooser();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     
     fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        fileChooser
-                .getExtensionFilters()
-                .addAll(
-                        new FileChooser.ExtensionFilter("Images", "*.png"),
-                        new FileChooser.ExtensionFilter("All Files", "*.*"));
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Images", "*.png"),
+            new FileChooser.ExtensionFilter("All Files", "*.*"));
     }
     
      @FXML private void browseImage(ActionEvent event) {
       try{
          fileChooser.setTitle("Open File");
         File file = fileChooser.showOpenDialog(primaryStage);
-//         System.out.println(file.getAbsolutePath());
          avatar = file.getAbsolutePath();
      avatar = avatar.replace("\\", "/");
       }
@@ -69,7 +62,6 @@ public class SignupController implements Initializable {
         alert.showAndWait();
       }
     }
-    
     
     
     @FXML private void handleButtonAction(ActionEvent event) {
@@ -86,14 +78,9 @@ public class SignupController implements Initializable {
             alert.setContentText("Password doesn't match the confirmation!");
             alert.showAndWait();
         }else if(avatar.length()<0)
-        {
-//                imglist.getSelectionModel().getSelectedIndex()<0){
-             
-//            islam
-            
+        {            
             alert.setContentText("Please select your profile picture!");
             alert.showAndWait();
-       
         }else{
             if(ClientApp.session == null){
                 ClientApp.session = new ClientSession("127.0.0.1", 5555);
@@ -127,5 +114,4 @@ public class SignupController implements Initializable {
         ClientApp.primaryStage.show();
         primaryStage.getIcons().add(new Image(getClass().getResource("/resources/images/icon.png").toString()));
     }
-   
 }

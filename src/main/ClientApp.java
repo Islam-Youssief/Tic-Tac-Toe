@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author ISLAM
+ * @author Abdo
  */
 public class ClientApp extends Application {
 
@@ -57,15 +57,10 @@ public class ClientApp extends Application {
         gameController = (GameController) gameLoader.getController();
        
         loginMediaPlayer = new MediaPlayer(new Media(getClass().getResource("../resources/music/lke9c-f08rg.mp3").toString()));
-//        loginMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         loginMediaPlayer.play();
         stage.setTitle("TicTacToe Game");
         stage.setScene(signIn);
         stage.show();
-//        stage.setMinWidth(800);
-//        stage.setMaxWidth(800);
-//        stage.setMinHeight(600);
-//        stage.setMaxHeight(600);
         primaryStage.setOnCloseRequest((event) -> {
             if (session != null && session.connected) {
                 session.closeConnection();

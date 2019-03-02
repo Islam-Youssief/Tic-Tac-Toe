@@ -35,6 +35,7 @@ public class ServerSession extends Thread{
         // Starting the server session thread
         start();
     }
+
     public void run(){
         while(true){
             try{
@@ -60,6 +61,7 @@ public class ServerSession extends Thread{
             //error connection already closed
         }
     }
+    
     private void requestHandle(Handler request) throws SQLException, ClassNotFoundException{
         switch(request.getType()){
             case LOGIN:
@@ -82,7 +84,6 @@ public class ServerSession extends Thread{
             case AIGAME_REQUEST :
                 AIrequestGame();
                 break;
-//                islam
             case MOVE:
                 handleMove(request);
                 break;
@@ -94,6 +95,7 @@ public class ServerSession extends Thread{
                 break;
         }
     }
+
     private void playerLogin(Handler request) throws SQLException, ClassNotFoundException{
         Handler loginResult = new Handler(Handler.HandType.LOGIN);
         boolean playerAuth = model.PlayerDB.playerAuth(request.getData("login_name"), request.getData("password"));
@@ -119,6 +121,7 @@ public class ServerSession extends Thread{
             connected = false;
         }
     }
+
     private void initConnection(){
         for(Map.Entry<String, Player> player : allPlayers.entrySet()){
             Handler request = new Handler(Handler.HandType.INIT);
@@ -129,6 +132,7 @@ public class ServerSession extends Thread{
             this.sendRequest(request);
         }
     }
+
     public void pushNotification(String key, String value){
         onlinePlayers.entrySet().forEach((session) -> {
             Handler notification = new Handler(Handler.HandType.NOTIFY);
@@ -139,6 +143,7 @@ public class ServerSession extends Thread{
         });
         ServerApp.serverController.refreshPlayersTable();
     }
+
     private void playerLogout(){
         onlinePlayers.remove(this);
         Server.allPlayers.get(player.getLoginName()).setStatus(Handler.OFFLINESTATUS);
@@ -146,6 +151,7 @@ public class ServerSession extends Thread{
         pushNotification("status", Server.allPlayers.get(player.getLoginName()).getStatus());
         closeConnection();
     }
+
     private void playerSignup(String username, String password,String fname,String lname,String picpath) throws SQLException, ClassNotFoundException{
         Handler result = new Handler(Handler.HandType.REGISTER);
         if(!model.PlayerDB.playerExisted(username)){
@@ -164,6 +170,7 @@ public class ServerSession extends Thread{
         sendRequest(result);
         
     }
+
     public void sendRequest(Handler request){
         try{
             this.upLink.writeObject(request);
@@ -171,6 +178,7 @@ public class ServerSession extends Thread{
             //error cannot send request to client
         }
     }
+
     public void chatHandler(Handler request){
         onlinePlayers.get(request.getData("sender")).sendRequest(request);
         if(!request.getData("sender").equals(request.getData("receiver"))){
@@ -178,6 +186,7 @@ public class ServerSession extends Thread{
                 onlinePlayers.get(request.getData("receiver")).sendRequest(request);    
         }            
     }
+
     private void broadcastNewPlayer(Player newPlayer){
         onlinePlayers.entrySet().forEach((session) -> {
             Handler request = new Handler(Handler.HandType.INIT);
@@ -281,8 +290,6 @@ public class ServerSession extends Thread{
                         break;
                 }
             }
-        
-
         }
     }
 }

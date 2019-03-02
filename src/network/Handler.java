@@ -26,7 +26,7 @@ public class Handler implements Serializable{
     public static final String OFFLINESTATUS = "Offline";
     public static final String BUSYSTATUS = "Busy";
 
- public static enum HandType{
+    public static enum HandType{
     LOGIN,//used when login in to specify request then check authentication
     LOGOUT,//used when logout to make user offline plus refresh players table
     REGISTER,//used to specify request then check if user exists
@@ -62,6 +62,7 @@ public class Handler implements Serializable{
     {
         this.type = type;
     }
+
     public HandType getType()
     { 
         return type; 
@@ -71,6 +72,7 @@ public class Handler implements Serializable{
     {
         data.put(key,value);
     }
+
     public String getData(String key){
         if(data.containsKey(key))
             return data.get(key);

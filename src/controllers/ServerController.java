@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import main.ServerApp;
 import model.*;
 import java.net.URL;
@@ -21,7 +22,7 @@ import javafx.scene.image.ImageView;
 /**
  * FXML Controller class
  *
- * @author AYA
+ * @author Aya
  */
 public class ServerController implements Initializable {
     
@@ -63,7 +64,8 @@ public class ServerController implements Initializable {
             new PropertyValueFactory<>("PicPath")
         );
     }
-    @FXML protected void handleToggleOnAction(ActionEvent t) {
+
+    @FXML protected void handleToggleOnAction(ActionEvent t) throws IOException {
         if(!ServerApp.server.running)
         {
             if(ServerApp.server.startServer(mainPort)){
@@ -86,6 +88,7 @@ public class ServerController implements Initializable {
             key.setGraphic(new ImageView(switchOff));
         }
     }
+
     public void refreshPlayersTable(){
         playersList.clear();
         ServerApp.server.allPlayers.entrySet().forEach((player) -> {
@@ -93,11 +96,12 @@ public class ServerController implements Initializable {
         });
         tableView.setItems(playersList);
     }
+    
     /***
      * Used to clear the table when shutting down the server
      */
     public void freePlayersTable(){
-    playersList.clear();
-    tableView.setItems(playersList);
+	    playersList.clear();
+	    tableView.setItems(playersList);
     }
 }

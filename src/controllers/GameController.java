@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
 /**
  * FXML Controller class
  *
- * @author AYA
+ * @author Aya
  */
 public class GameController implements Initializable {
 
